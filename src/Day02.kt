@@ -1,7 +1,7 @@
 fun main() {
     val input = input("Day02")
-    println("${part1(input)}")
-    println("${part2(input)}")
+    println(part1(input))
+    println(part2(input))
 }
 
 private fun part1(input: List<String>): Int =
@@ -9,7 +9,7 @@ private fun part1(input: List<String>): Int =
 
 private fun part2(input: List<String>): Int =
     input
-        .map(::xyz2ldw)
+        .map(::toLDW)
         .sumOf { shapeScore(shape2(it)) + outcomeScore(outcome2(it)) }
 
 private fun shape1(round: String) = round.last().toString()
@@ -47,7 +47,7 @@ private fun outcomeScore(outcome: String) =
         else -> throw IllegalArgumentException()
     }
 
-private fun xyz2ldw(round: String) =
+private fun toLDW(round: String) =
     round
         .replace("X", "L")
         .replace("Y", "D")

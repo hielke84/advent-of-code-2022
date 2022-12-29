@@ -32,7 +32,7 @@ private fun dirSizes(input: List<String>): Map<String, Int> {
             command.startsWith("$ ls") -> Unit
             command.startsWith("dir") -> Unit
             else -> {
-                (0 until dirStack.size)
+                dirStack.indices
                     .map { path(dirStack, it) }
                     .forEach { dirSizes[it] = (dirSizes[it] ?: 0) + command.words()[0].toInt() }
             }
@@ -42,7 +42,7 @@ private fun dirSizes(input: List<String>): Map<String, Int> {
     return dirSizes.toMap()
 }
 
-fun path(dirStack: List<String>, index: Int) =
+private fun path(dirStack: List<String>, index: Int) =
     dirStack.first() + dirStack.subList(1, index + 1).joinToString("/")
 
-fun String.words(): List<String> = this.split(" ")
+private fun String.words(): List<String> = this.split(" ")
