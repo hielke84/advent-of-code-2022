@@ -1,0 +1,48 @@
+fun main() {
+    val input = input("Day07")
+    println(part1(input))
+    println(part2(input))
+}
+
+private fun part1(input: List<String>): Int =
+    dirSizes(input)
+        .map { it.value }
+        .filter { it <= 100_000 }
+        .sum()
+
+private fun part2(input: List<String>): Int {
+    val dirSizes = dirSizes(input)
+    val used = dirSizes["/"] ?: 0
+    val unused = 70_000_000 - used
+    val overflow = 30_000_000 - unused
+    return dirSizes
+        .map { it.value }
+        .filter { it >= overflow }
+        .minOf { it }
+}
+
+private fun dirSizes(input: List<String>): Map<String, Int> {
+    val dirStack = mutableListOf<String>()
+    val dirSizes = mutableMapOf<String, Int>()
+
+    input.forEach { command ->
+        when {
+            command.startsWith("$ cd ..") -> dirStack.removeLast()
+            command.startsWith("$ cd") -> dirStack.add(command.words()[2])
+            command.startsWith("$ ls") -> Unit
+            command.startsWith("dir") -> Unit
+            else -> {
+                (0 until dirStack.size)
+                    .map { path(dirStack, it) }
+                    .forEach { dirSizes[it] = (dirSizes[it] ?: 0) + command.words()[0].toInt() }
+            }
+        }
+    }
+
+    return dirSizes.toMap()
+}
+
+fun path(dirStack: List<String>, index: Int) =
+    dirStack.first() + dirStack.subList(1, index + 1).joinToString("/")
+
+fun String.words(): List<String> = this.split(" ")
