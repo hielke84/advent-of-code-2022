@@ -4,20 +4,18 @@ fun main() {
     println(part2(input))
 }
 
-private fun part1(input: List<String>): Int {
-    return cycles(input)
+private fun part1(input: List<String>): Int =
+    cycles(input)
         .mapIndexed { index, value -> (index + 1) * value }
         .filterIndexed { index, _ -> (index - 19) % 40 == 0 }
         .sum()
-}
 
-private fun part2(input: List<String>): String {
-    return cycles(input)
+private fun part2(input: List<String>): String =
+    cycles(input)
         .mapIndexed { index, cycle -> if (index % 40 in cycle - 1..cycle + 1) "█" else " " }
         .joinToString(separator = "")
         .chunked(40)
         .joinToString(separator = "\n")
-}
 
 private fun cycles(input: List<String>): MutableList<Int> {
     var registry = 1

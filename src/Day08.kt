@@ -4,21 +4,19 @@ fun main() {
     println(part2(input))
 }
 
-private fun part1(input: List<List<Int>>): Int {
-    return input.indices.sumOf { y ->
+private fun part1(input: List<List<Int>>): Int =
+    input.indices.sumOf { y ->
         input[y].indices.count { x ->
             isVisible(input.row(y), x) || isVisible(input.column(x), y)
         }
     }
-}
 
-private fun part2(input: List<List<Int>>): Int {
-    return input.indices.maxOf { y ->
+private fun part2(input: List<List<Int>>): Int =
+    input.indices.maxOf { y ->
         input[y].indices.maxOf { x ->
             score(input.row(y), x) * score(input.column(x), y)
         }
     }
-}
 
 private fun List<String>.toIntMatrix(): List<List<Int>> = this.map { it.toCharArray().map(Char::digitToInt) }
 

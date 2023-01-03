@@ -38,20 +38,18 @@ private fun part2(input: List<String>): Int {
     return visits.size
 }
 
-private fun moveHead(head: Position, direction: Direction): Position {
-    return when (direction) {
+private fun moveHead(head: Position, direction: Direction): Position =
+    when (direction) {
         Direction.U -> head.copy(y = head.y + 1)
         Direction.R -> head.copy(x = head.x + 1)
         Direction.D -> head.copy(y = head.y - 1)
         Direction.L -> head.copy(x = head.x - 1)
     }
-}
 
-private fun moveTail(tail: Position, head: Position): Position {
-    return if (abs(head.y - tail.y) == 2 || abs(head.x - tail.x) == 2)
+private fun moveTail(tail: Position, head: Position): Position =
+    if (abs(head.y - tail.y) == 2 || abs(head.x - tail.x) == 2)
         Position(tail.x + (head.x - tail.x).sign, tail.y + (head.y - tail.y).sign)
     else tail
-}
 
 private data class Position(val x: Int, val y: Int)
 
