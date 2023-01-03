@@ -53,10 +53,10 @@ private fun moveTail(tail: Position, head: Position): Position {
     else tail
 }
 
-data class Position(val x: Int, val y: Int)
+private data class Position(val x: Int, val y: Int)
 
-data class Instruction(val direction: Direction, val distance: Int)
+private data class Instruction(val direction: Direction, val distance: Int)
 
-enum class Direction { U, R, D, L }
+private enum class Direction { U, R, D, L }
 
 private fun String.words(): List<String> = this.split(" ")
