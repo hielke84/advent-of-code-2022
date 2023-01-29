@@ -1,7 +1,7 @@
 fun main() {
     val input = input("Day06")[0].toCharArray().toList()
-    println(part1(input))
-    println(part2(input))
+    test(part1(input), 1582)
+    test(part2(input), 3588)
 }
 
 private fun part1(input: List<Char>): Int = minSizeContainingMarker(input, 4)

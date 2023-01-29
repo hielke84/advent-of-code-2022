@@ -1,7 +1,7 @@
 fun main() {
     val input = input("Day04")
-    println(part1(input))
-    println(part2(input))
+    test(part1(input), 494)
+    test(part2(input), 833)
 }
 
 private fun part1(input: List<String>): Int =

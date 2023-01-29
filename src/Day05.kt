@@ -1,7 +1,7 @@
 fun main() {
     val input = input("Day05")
-    println(part1(input))
-    println(part2(input))
+    test(part1(input), "ZWHVFWQWW")
+    test(part2(input), "HZFZCCWWV")
 }
 
 private fun part1(input: List<String>): String {
@@ -23,6 +23,29 @@ private fun part2(input: List<String>): String {
     }
     return topCrates(stacks)
 }
+
+private fun move1(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): List<List<Char>> {
+    val result = stacks.toMutableList()
+    repeat(moves) {
+        val fromStack = result[from - 1].toMutableList()
+        val toStack = result[to - 1].toMutableList()
+        result[to - 1] = toStack.plus(fromStack.last())
+        result[from - 1] = fromStack.dropLast(1)
+    }
+    return result
+}
+
+private fun move2(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): List<List<Char>> {
+    val result = stacks.toMutableList()
+    val fromStack = result[from - 1].toMutableList()
+    val toStack = result[to - 1].toMutableList()
+    result[to - 1] = toStack.plus(fromStack.subList(fromStack.size - moves, fromStack.size))
+    result[from - 1] = fromStack.dropLast(moves)
+    return result
+}
+
+private fun topCrates(stacks: List<List<Char>>) =
+    stacks.map { if(it.isNotEmpty()) it.last() else " " }.joinToString(separator = "")
 
 private fun parseStacks(input: List<String>, separator: Int): List<List<Char>> {
     val crateLines = input.subList(0, separator - 1)
@@ -64,26 +87,3 @@ private fun codify(it: String): List<Int> =
         ?.drop(1)
         ?.map(String::toInt)
         ?: emptyList()
-
-private fun move1(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): List<List<Char>> {
-    val result = stacks.toMutableList()
-    repeat(moves) {
-        val fromStack = result[from - 1].toMutableList()
-        val toStack = result[to - 1].toMutableList()
-        result[to - 1] = toStack.plus(fromStack.last())
-        result[from - 1] = fromStack.drop(1)
-    }
-    return result
-}
-
-private fun move2(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): List<List<Char>> {
-    val result = stacks.toMutableList()
-    val fromStack = result[from - 1].toMutableList()
-    val toStack = result[to - 1].toMutableList()
-    result[to - 1] = toStack.plus(fromStack.subList(fromStack.size - moves, fromStack.size))
-    result[from - 1] = fromStack.dropLast(moves)
-    return result
-}
-
-private fun topCrates(stacks: List<List<Char>>) =
-    stacks.map(List<Char>::last).joinToString(separator = "")

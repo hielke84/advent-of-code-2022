@@ -1,7 +1,15 @@
 fun main() {
     val input = input("Day10")
-    println(part1(input))
-    println(part2(input))
+    test(part1(input), 15360)
+    test(part2(input),
+        """
+        ███  █  █ █    █  █   ██  ██  ████  ██  
+        █  █ █  █ █    █  █    █ █  █    █ █  █ 
+        █  █ ████ █    ████    █ █      █  █  █ 
+        ███  █  █ █    █  █    █ █ ██  █   ████ 
+        █    █  █ █    █  █ █  █ █  █ █    █  █ 
+        █    █  █ ████ █  █  ██   ███ ████ █  █ 
+        """.trimIndent())
 }
 
 private fun part1(input: List<String>): Int =
