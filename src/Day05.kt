@@ -27,8 +27,8 @@ private fun part2(input: List<String>): String {
 private fun move1(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): List<List<Char>> {
     val result = stacks.toMutableList()
     repeat(moves) {
-        val fromStack = result[from - 1].toMutableList()
-        val toStack = result[to - 1].toMutableList()
+        val fromStack = result[from - 1]
+        val toStack = result[to - 1]
         result[to - 1] = toStack.plus(fromStack.last())
         result[from - 1] = fromStack.dropLast(1)
     }
@@ -37,8 +37,8 @@ private fun move1(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): Lis
 
 private fun move2(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): List<List<Char>> {
     val result = stacks.toMutableList()
-    val fromStack = result[from - 1].toMutableList()
-    val toStack = result[to - 1].toMutableList()
+    val fromStack = result[from - 1]
+    val toStack = result[to - 1]
     result[to - 1] = toStack.plus(fromStack.subList(fromStack.size - moves, fromStack.size))
     result[from - 1] = fromStack.dropLast(moves)
     return result
