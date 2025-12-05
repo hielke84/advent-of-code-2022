@@ -17,10 +17,14 @@ My solutions to [Advent of Code 2022](https://adventofcode.com/2022), in Kotlin.
 
 ## Build
 
-`./gradlew build`
+```shell
+./gradlew build
+```
 
 ## Run
 
 From your IDE, or:
 
-`kotlin -cp ./build/libs/advent-of-code-2022.jar Day##Kt`
+```shell
+kotlin -cp ./build/libs/advent-of-code-2022.jar Day##Kt
+```
