@@ -8,19 +8,17 @@ private fun part1(input: List<String>): Int =
     input
         .map(::compartments)
         .map(::sharedItem)
-        .map(::priority)
-        .sum()
+        .sumOf(::priority)
 
 private fun part2(input: List<String>): Int =
     input
         .chunked(3)
         .map(::sharedItem)
-        .map(::priority)
-        .sum()
+        .sumOf(::priority)
 
 private fun compartments(rucksack: String): List<String> =
     listOf(
-        rucksack.substring(0, rucksack.length / 2),
+        rucksack.take(rucksack.length / 2),
         rucksack.substring(rucksack.length / 2)
     )
 

@@ -39,7 +39,7 @@ private fun minDist(heightMap: Array<Array<Char>>, distMap: Array<Array<Int>>, s
 
     if (heightMap[x][y] == END_CHAR) return dist
 
-    return listOf(Pair(x, y - 1), Pair(x, y + 1), Pair(x - 1, y), Pair(x + 1, y))
+    return listOf(x to y - 1, x to y + 1, x - 1 to y, x + 1 to y)
         .asSequence()
         .filter {
             (heightMap.getOrNull(it)?.code ?: Int.MAX_VALUE) <= height + 1
@@ -54,9 +54,8 @@ private fun List<String>.toArrays(): Array<Array<Char>> =
     Array(this.size) { x -> Array(this[0].length) { y -> this[x][y] } }
 
 private fun Array<Array<Char>>.indexesOf(char: Char): List<Pair<Int, Int>> = this
-    .mapIndexed { index, line -> Pair(index, line.indexOf(char)) }
+    .mapIndexed { index, line -> index to line.indexOf(char) }
     .filter { pair -> pair.second > -1 }
 
 private fun <T> Array<Array<T>>.getOrNull(p: Pair<Int, Int>): T? = this.getOrNull(p.first)?.getOrNull(p.second)
 
-private fun <T> printArray(list: Array<Array<T>>) = list.forEach { row -> println(row.joinToString()) }

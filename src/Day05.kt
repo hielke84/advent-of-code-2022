@@ -45,7 +45,9 @@ private fun move2(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): Lis
 }
 
 private fun topCrates(stacks: List<List<Char>>) =
-    stacks.map { if(it.isNotEmpty()) it.last() else " " }.joinToString(separator = "")
+    stacks
+        .map { if(it.isNotEmpty()) it.last() else " " }
+        .joinToString(separator = "")
 
 private fun parseStacks(input: List<String>, separator: Int): List<List<Char>> {
     val crateLines = input.subList(0, separator - 1)

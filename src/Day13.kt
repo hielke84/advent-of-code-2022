@@ -1,7 +1,7 @@
 fun main() {
     val input = input("Day13")
         .chunked(3) {
-            Pair(it[0], it[1])
+            it[0] to it[1]
         }
 
     test({ part1(input) }, 5684)
@@ -22,9 +22,9 @@ private fun part2(pairs: List<Pair<String, String>>): Int {
     val divider1 = "[[2]]"
     val divider2 = "[[6]]"
 
-    val sorted = (pairs + Pair(divider1, divider2))
+    val sorted = (pairs + (divider1 to divider2))
         .map(::parse)
-        .flatMap { pair -> listOf(pair.first, pair.second) }
+        .flatMap { it.toList() }
         .sortedWith(::compare)
 
     return (sorted.indexOf(parse(divider1).first) + 1) *
@@ -46,7 +46,7 @@ private fun compareLists(left: List<*>, right: List<*>): Int {
         val result = compare(left[index]!!, right[index]!!)
         if (result != 0)
             return result
-        index++;
+        index++
     }
     return left.size - right.size
 }
@@ -54,10 +54,7 @@ private fun compareLists(left: List<*>, right: List<*>): Int {
 private fun compareInts(left: Int, right: Int): Int = left - right
 
 private fun parse(pair: Pair<String, String>): Pair<List<Any>, List<Any>> =
-    Pair(
-        parse(pair.first).first,
-        parse(pair.second).first
-    )
+    parse(pair.first).first to parse(pair.second).first
 
 private fun parse(packet: String, index: Int = 1): Pair<List<Any>, Int> {
     var index = index
@@ -70,7 +67,7 @@ private fun parse(packet: String, index: Int = 1): Pair<List<Any>, Int> {
         when (char) {
             ']' -> {
                 if (word != "") result.add(word.toInt())
-                return Pair(result, index)
+                return result to index
             }
 
             ',' -> {
