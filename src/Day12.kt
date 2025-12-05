@@ -7,8 +7,8 @@ fun main() {
             it.replace('S', START_CHAR)
                 .replace('E', END_CHAR)
         }
-    test(part1(input), 370)
-    test(part2(input), 363)
+    test({ part1(input) }, 370)
+    test({ part2(input) }, 363)
 }
 
 private fun part1(input: List<String>): Int {

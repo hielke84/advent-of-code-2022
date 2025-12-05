@@ -1,7 +1,7 @@
 fun main() {
     val input = input("Day10")
-    test(part1(input), 15360)
-    test(part2(input),
+    test({ part1(input) }, 15360)
+    test({ part2(input) },
         """
         ███  █  █ █    █  █   ██  ██  ████  ██  
         █  █ █  █ █    █  █    █ █  █    █ █  █ 

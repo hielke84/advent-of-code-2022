@@ -2,15 +2,22 @@ import java.io.File
 
 fun input(filename: String) = File("src", "$filename.txt").readLines()
 
-fun test(actual: Int, expected: Int) = test(actual.toString(), expected.toString())
+fun <T> test(actual: () -> T, expected: T) =
+    try {
+        test(actual.invoke(), expected)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 
-fun test(actual: Long, expected: Long) = test(actual.toString(), expected.toString())
-
-fun test(actual: String, expected: String) {
+private fun <T> test(actual: T, expected: T) {
     println(
-        if (actual.trim() == expected.trim())
-            "$actual \u001B[32m[PASS]\u001B[0m"
-        else
-            "$actual \u001B[31m[FAIL]\u001b[0m expected: $expected"
+        failPass(actual.toString().trim() == expected.toString().trim())
+                + " expected ${expected.toString()}, was ${actual.toString()}"
     )
 }
+
+private fun failPass(test: Boolean): String =
+    if (test)
+        "\u001B[32m[PASS]\u001B[0m"
+    else
+        "\u001B[31m[FAIL]\u001b[0m"

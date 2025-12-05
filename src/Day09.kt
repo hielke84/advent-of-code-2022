@@ -3,8 +3,8 @@ import kotlin.math.sign
 
 fun main() {
     val input = input("Day09")
-    test(part1(input), 6464)
-    test(part2(input), 2604)
+    test({ part1(input) }, 6464)
+    test({ part2(input) }, 2604)
 }
 
 private fun part1(input: List<String>): Int {

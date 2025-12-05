@@ -1,7 +1,7 @@
 fun main() {
     val input = input("Day08").toIntMatrix()
-    test(part1(input), 1672)
-    test(part2(input), 327180)
+    test({ part1(input) }, 1672)
+    test({ part2(input) }, 327180)
 }
 
 private fun part1(input: List<List<Int>>): Int =
