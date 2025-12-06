@@ -1,3 +1,7 @@
+package day09
+
+import input
+import test
 import kotlin.math.abs
 import kotlin.math.sign
 

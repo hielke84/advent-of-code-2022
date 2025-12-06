@@ -1,3 +1,8 @@
+package day08
+
+import input
+import test
+
 fun main() {
     val input = input(8).toIntMatrix()
     test({ part1(input) }, 1672)

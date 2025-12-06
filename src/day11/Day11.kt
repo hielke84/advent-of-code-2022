@@ -1,3 +1,8 @@
+package day11
+
+import input
+import test
+
 fun main() {
     val input = input(11)
         .chunked(7)

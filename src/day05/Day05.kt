@@ -1,3 +1,8 @@
+package day05
+
+import input
+import test
+
 fun main() {
     val input = input(5)
     test({ part1(input) }, "ZWHVFWQWW")

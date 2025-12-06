@@ -1,7 +1,7 @@
 import java.io.File
 
 fun input(day: Int) =
-    File("src", "Day${day.toString().padStart(2, '0')}.txt")
+    File("src/Day${day.toString().padStart(2, '0')}", "input.txt")
         .readLines()
 
 fun <T> test(actual: () -> T, expected: T) =

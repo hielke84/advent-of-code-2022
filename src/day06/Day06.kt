@@ -1,3 +1,8 @@
+package day06
+
+import input
+import test
+
 fun main() {
     val input = input(6)[0].toCharArray().toList()
     test({ part1(input) }, 1582)

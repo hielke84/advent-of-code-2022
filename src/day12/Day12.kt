@@ -1,3 +1,8 @@
+package day12
+
+import input
+import test
+
 private const val START_CHAR = '`' // one step lower than 'a'
 private const val END_CHAR = '{' // one step higher than 'z'
 

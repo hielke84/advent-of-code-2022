@@ -1,3 +1,8 @@
+package day07
+
+import input
+import test
+
 fun main() {
     val input = input(7)
     test({ part1(input) }, 1908462)
