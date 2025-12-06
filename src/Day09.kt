@@ -40,10 +40,10 @@ private fun part2(input: List<String>): Int {
 
 private fun moveHead(head: Position, direction: Direction): Position =
     when (direction) {
-        Direction.U -> head.copy(y = head.y + 1)
-        Direction.R -> head.copy(x = head.x + 1)
-        Direction.D -> head.copy(y = head.y - 1)
-        Direction.L -> head.copy(x = head.x - 1)
+        Direction.U -> head.up()
+        Direction.R -> head.right()
+        Direction.D -> head.down()
+        Direction.L -> head.left()
     }
 
 private fun moveTail(tail: Position, head: Position): Position =
@@ -51,7 +51,12 @@ private fun moveTail(tail: Position, head: Position): Position =
         Position(tail.x + (head.x - tail.x).sign, tail.y + (head.y - tail.y).sign)
     else tail
 
-private data class Position(val x: Int, val y: Int)
+private data class Position(val x: Int, val y: Int) {
+    fun up() = copy(y = y - 1)
+    fun down() = copy(y = y + 1)
+    fun left() = copy(x = x - 1)
+    fun right() = copy(x = x + 1)
+}
 
 private data class Instruction(val direction: Direction, val distance: Int)
 
