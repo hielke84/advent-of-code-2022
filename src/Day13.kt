@@ -1,5 +1,5 @@
 fun main() {
-    val input = input("Day13")
+    val input = input(13)
         .chunked(3) {
             it[0] to it[1]
         }

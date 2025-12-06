@@ -1,5 +1,5 @@
 fun main() {
-    val input = input("Day07")
+    val input = input(7)
     test({ part1(input) }, 1908462)
     test({ part2(input) }, 3979145)
 }

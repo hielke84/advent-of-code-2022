@@ -2,7 +2,7 @@ private const val START_CHAR = '`' // one step lower than 'a'
 private const val END_CHAR = '{' // one step higher than 'z'
 
 fun main() {
-    val input = input("Day12")
+    val input = input(12)
         .map {
             it.replace('S', START_CHAR)
                 .replace('E', END_CHAR)

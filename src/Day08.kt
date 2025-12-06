@@ -1,5 +1,5 @@
 fun main() {
-    val input = input("Day08").toIntMatrix()
+    val input = input(8).toIntMatrix()
     test({ part1(input) }, 1672)
     test({ part2(input) }, 327180)
 }

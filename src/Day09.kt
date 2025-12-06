@@ -2,7 +2,7 @@ import kotlin.math.abs
 import kotlin.math.sign
 
 fun main() {
-    val input = input("Day09")
+    val input = input(9)
     test({ part1(input) }, 6464)
     test({ part2(input) }, 2604)
 }

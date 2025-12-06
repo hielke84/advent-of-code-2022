@@ -1,5 +1,5 @@
 fun main() {
-    val input = input("Day11")
+    val input = input(11)
         .chunked(7)
         .map { it.joinToString("\n") }
     test({ part1(input) }, 58794L)

@@ -1,6 +1,8 @@
 import java.io.File
 
-fun input(filename: String) = File("src", "$filename.txt").readLines()
+fun input(day: Int) =
+    File("src", "Day${day.toString().padStart(2, '0')}.txt")
+        .readLines()
 
 fun <T> test(actual: () -> T, expected: T) =
     try {
@@ -9,12 +11,11 @@ fun <T> test(actual: () -> T, expected: T) =
         e.printStackTrace()
     }
 
-private fun <T> test(actual: T, expected: T) {
+private fun <T> test(actual: T, expected: T) =
     println(
         failPass(actual.toString().trim() == expected.toString().trim())
                 + " expected ${expected.toString()}, was ${actual.toString()}"
     )
-}
 
 private fun failPass(test: Boolean): String =
     if (test)

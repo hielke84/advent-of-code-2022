@@ -1,5 +1,5 @@
 fun main() {
-    val input = input("Day06")[0].toCharArray().toList()
+    val input = input(6)[0].toCharArray().toList()
     test({ part1(input) }, 1582)
     test({ part2(input) }, 3588)
 }

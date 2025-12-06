@@ -2,7 +2,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 fun main() {
-    val input = input("Day14")
+    val input = input(14)
         .flatMap { line ->
             line.split(" -> ")
                 .map { coordinate ->
