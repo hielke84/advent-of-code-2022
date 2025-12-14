@@ -4,8 +4,8 @@ import Solution
 import Solutions
 import input
 
-private const val START_CHAR = '`' // one step lower than 'a'
-private const val END_CHAR = '{' // one step higher than 'z'
+private const val START_CHAR = 'a'.minus(1)
+private const val END_CHAR = 'z'.plus(1)
 
 fun solve(): Solutions<Int> {
     val input = input(12)
