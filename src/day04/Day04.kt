@@ -1,12 +1,15 @@
 package day04
 
+import Solution
+import Solutions
 import input
-import test
 
-fun main() {
+fun solve(): Solutions<Int> {
     val input = input(4)
-    test({ part1(input) }, 494)
-    test({ part2(input) }, 833)
+    return Solutions(
+        Solution(part1(input), 494),
+        Solution(part2(input), 833)
+    )
 }
 
 private fun part1(input: List<String>): Int =

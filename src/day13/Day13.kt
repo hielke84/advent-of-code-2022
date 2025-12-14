@@ -1,16 +1,18 @@
 package day13
 
+import Solution
+import Solutions
 import input
-import test
 
-fun main() {
+fun solve(): Solutions<Int> {
     val input = input(13)
         .chunked(3) {
             it[0] to it[1]
         }
-
-    test({ part1(input) }, 5684)
-    test({ part2(input) }, 22932)
+    return Solutions(
+        Solution(part1(input), 5684),
+        Solution(part2(input), 22932)
+    )
 }
 
 private fun part1(pairs: List<Pair<String, String>>): Int =

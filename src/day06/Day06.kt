@@ -1,12 +1,15 @@
 package day06
 
+import Solution
+import Solutions
 import input
-import test
 
-fun main() {
+fun solve(): Solutions<Int> {
     val input = input(6)[0].toCharArray().toList()
-    test({ part1(input) }, 1582)
-    test({ part2(input) }, 3588)
+    return Solutions(
+        Solution(part1(input), 1582),
+        Solution(part2(input), 3588)
+    )
 }
 
 private fun part1(input: List<Char>): Int = minSizeContainingMarker(input, 4)

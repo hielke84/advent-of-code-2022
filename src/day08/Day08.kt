@@ -1,12 +1,15 @@
 package day08
 
+import Solution
+import Solutions
 import input
-import test
 
-fun main() {
+fun solve(): Solutions<Int> {
     val input = input(8).toIntMatrix()
-    test({ part1(input) }, 1672)
-    test({ part2(input) }, 327180)
+    return Solutions(
+        Solution(part1(input), 1672),
+        Solution(part2(input), 327180)
+    )
 }
 
 private fun part1(input: List<List<Int>>): Int =

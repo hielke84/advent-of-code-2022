@@ -1,20 +1,23 @@
 package day10
 
+import Solution
+import Solutions
 import input
-import test
 
-fun main() {
+fun solve(): Solutions<Any> {
     val input = input(10)
-    test({ part1(input) }, 15360)
-    test({ part2(input) },
-        """
+    return Solutions(
+        Solution(part1(input), 15360),
+        Solution(part2(input), """
         ███  █  █ █    █  █   ██  ██  ████  ██  
         █  █ █  █ █    █  █    █ █  █    █ █  █ 
         █  █ ████ █    ████    █ █      █  █  █ 
         ███  █  █ █    █  █    █ █ ██  █   ████ 
         █    █  █ █    █  █ █  █ █  █ █    █  █ 
         █    █  █ ████ █  █  ██   ███ ████ █  █ 
-        """.trimIndent())
+        """.trimIndent()
+        )
+    )
 }
 
 private fun part1(input: List<String>): Int =
@@ -29,6 +32,7 @@ private fun part2(input: List<String>): String =
         .joinToString(separator = "")
         .chunked(40)
         .joinToString(separator = "\n")
+        .trimIndent()
 
 private fun cycles(input: List<String>): MutableList<Int> {
     var registry = 1

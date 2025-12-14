@@ -1,11 +1,12 @@
 package day14
 
+import Solution
+import Solutions
 import input
-import test
 import kotlin.math.max
 import kotlin.math.min
 
-fun main() {
+fun solve(): Solutions<Int> {
     val input = input(14)
         .flatMap { line ->
             line.split(" -> ")
@@ -15,9 +16,10 @@ fun main() {
                 }
                 .zipWithNext()
         }.toSet()
-
-    test({ part1(input) }, 625)
-    test({ part2(input) }, 25193)
+    return Solutions(
+        Solution(part1(input), 625),
+        Solution(part2(input), 25193)
+    )
 }
 
 private fun part1(vertices: Set<Vertex>): Int {

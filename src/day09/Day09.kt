@@ -1,14 +1,17 @@
 package day09
 
+import Solution
+import Solutions
 import input
-import test
 import kotlin.math.abs
 import kotlin.math.sign
 
-fun main() {
+fun solve(): Solutions<Int> {
     val input = input(9)
-    test({ part1(input) }, 6464)
-    test({ part2(input) }, 2604)
+    return Solutions(
+        Solution(part1(input), 6464),
+        Solution(part2(input), 2604)
+    )
 }
 
 private fun part1(input: List<String>): Int {

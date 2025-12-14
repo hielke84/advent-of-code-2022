@@ -1,19 +1,22 @@
 package day12
 
+import Solution
+import Solutions
 import input
-import test
 
 private const val START_CHAR = '`' // one step lower than 'a'
 private const val END_CHAR = '{' // one step higher than 'z'
 
-fun main() {
+fun solve(): Solutions<Int> {
     val input = input(12)
         .map {
             it.replace('S', START_CHAR)
                 .replace('E', END_CHAR)
         }
-    test({ part1(input) }, 370)
-    test({ part2(input) }, 363)
+    return Solutions(
+        Solution(part1(input), 370),
+        Solution(part2(input), 363)
+    )
 }
 
 private fun part1(input: List<String>): Int {

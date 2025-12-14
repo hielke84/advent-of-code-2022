@@ -1,12 +1,15 @@
 package day05
 
+import Solution
+import Solutions
 import input
-import test
 
-fun main() {
+fun solve(): Solutions<String> {
     val input = input(5)
-    test({ part1(input) }, "ZWHVFWQWW")
-    test({ part2(input) }, "HZFZCCWWV")
+    return Solutions(
+        Solution(part1(input), "ZWHVFWQWW"),
+        Solution(part2(input), "HZFZCCWWV")
+    )
 }
 
 private fun part1(input: List<String>): String {

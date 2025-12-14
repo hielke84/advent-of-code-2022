@@ -1,14 +1,17 @@
 package day11
 
+import Solution
+import Solutions
 import input
-import test
 
-fun main() {
+fun solve(): Solutions<Long> {
     val input = input(11)
         .chunked(7)
         .map { it.joinToString("\n") }
-    test({ part1(input) }, 58794L)
-    test({ part2(input) }, 20151213744L)
+    return Solutions(
+        Solution(part1(input), 58794L),
+        Solution(part2(input), 20151213744L)
+    )
 }
 
 private fun part1(input: List<String>): Long {
