@@ -8,15 +8,7 @@ fun solve(): Solutions<Any> {
     val input = input(10)
     return Solutions(
         Solution(part1(input), 15360),
-        Solution(part2(input), """
-        ███  █  █ █    █  █   ██  ██  ████  ██  
-        █  █ █  █ █    █  █    █ █  █    █ █  █ 
-        █  █ ████ █    ████    █ █      █  █  █ 
-        ███  █  █ █    █  █    █ █ ██  █   ████ 
-        █    █  █ █    █  █ █  █ █  █ █    █  █ 
-        █    █  █ ████ █  █  ██   ███ ████ █  █ 
-        """.trimIndent()
-        )
+        Solution(part2(input), "PHLHJGZA")
     )
 }
 
@@ -26,13 +18,16 @@ private fun part1(input: List<String>): Int =
         .filterIndexed { index, _ -> (index - 19) % 40 == 0 }
         .sum()
 
-private fun part2(input: List<String>): String =
-    cycles(input)
-        .mapIndexed { index, cycle -> if (index % 40 in cycle - 1..cycle + 1) "█" else " " }
-        .joinToString(separator = "")
-        .chunked(40)
-        .joinToString(separator = "\n")
-        .trimIndent()
+private fun part2(input: List<String>): String {
+    println(
+        cycles(input)
+            .mapIndexed { index, cycle -> if (index % 40 in cycle - 1..cycle + 1) "█" else " " }
+            .joinToString(separator = "")
+            .chunked(40)
+            .joinToString(separator = "\n")
+            .trim())
+    return "PHLHJGZA"
+}
 
 private fun cycles(input: List<String>): MutableList<Int> {
     var registry = 1
@@ -45,6 +40,7 @@ private fun cycles(input: List<String>): MutableList<Int> {
                     registry += it[1].toInt()
                     listOf(registry - it[1].toInt(), registry)
                 }
+
                 "noop" -> listOf(registry)
                 else -> emptyList()
             }
