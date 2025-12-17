@@ -12,25 +12,28 @@ fun solve(): Solutions<Int> {
     )
 }
 
-private fun part1(input: List<List<Int>>): Int =
+private fun part1(input: Matrix<Int>): Int =
     input.indices.sumOf { y ->
         input[y].indices.count { x ->
             isVisible(input.row(y), x) || isVisible(input.column(x), y)
         }
     }
 
-private fun part2(input: List<List<Int>>): Int =
+private fun part2(input: Matrix<Int>): Int =
     input.indices.maxOf { y ->
         input[y].indices.maxOf { x ->
             score(input.row(y), x) * score(input.column(x), y)
         }
     }
 
-private fun List<String>.toIntMatrix(): List<List<Int>> = this.map { it.toCharArray().map(Char::digitToInt) }
+private typealias Matrix<T> = Array<Array<T>>
 
-private fun List<List<Int>>.row(i: Int) = this[i]
+private fun List<String>.toIntMatrix(): Matrix<Int> =
+    this.map { it.toCharArray().map(Char::digitToInt).toTypedArray() }.toTypedArray()
 
-private fun List<List<Int>>.column(i: Int) = this.map { it[i] }
+private fun Matrix<Int>.row(i: Int) = this[i].toList()
+
+private fun Matrix<Int>.column(i: Int) = this.map { it[i] }.toList()
 
 private fun isVisible(row: List<Int>, index: Int): Boolean = isVisibleLeft(row, index) || isVisibleRight(row, index)
 

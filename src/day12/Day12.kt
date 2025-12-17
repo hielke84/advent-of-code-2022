@@ -20,7 +20,7 @@ fun solve(): Solutions<Int> {
 }
 
 private fun part1(input: List<String>): Int {
-    val heightMap = input.toGrid()
+    val heightMap = input.toMatrix()
     val start = heightMap.indexesOf(START_CHAR).first()
     return minDist(heightMap, start)
 }
@@ -28,18 +28,18 @@ private fun part1(input: List<String>): Int {
 private fun part2(input: List<String>): Int {
     val newStartChar = 'a'
     val newInput = input.map { it.replace(START_CHAR, newStartChar) }
-    val heightMap = newInput.toGrid()
+    val heightMap = newInput.toMatrix()
     val starts = heightMap.indexesOf(newStartChar)
     return starts.minOfOrNull { minDist(heightMap, it) } ?: -1
 }
 
-private fun minDist(heightMap: Grid<Char>, start: Point): Int {
-    val distMap: Grid<Int> = Array(heightMap.size) { Array(heightMap[0].size) { Int.MAX_VALUE } }
+private fun minDist(heightMap: Matrix<Char>, start: Point): Int {
+    val distMap: Matrix<Int> = Array(heightMap.size) { Array(heightMap[0].size) { Int.MAX_VALUE } }
     distMap[start] = 0
     return minDist(heightMap, distMap, start)
 }
 
-private fun minDist(heightMap: Grid<Char>, distMap: Grid<Int>, start: Point): Int {
+private fun minDist(heightMap: Matrix<Char>, distMap: Matrix<Int>, start: Point): Int {
     val dist = distMap[start]
     val height = heightMap[start].code
 
@@ -62,21 +62,20 @@ private data class Point(val x: Int, val y: Int) {
     fun right() = copy(x = x + 1)
 }
 
-private typealias Grid<T> = Array<Array<T>>
+private typealias Matrix<T> = Array<Array<T>>
 
-private fun List<String>.toGrid(): Grid<Char> =
-    this.map { it.toCharArray().toTypedArray() }.toTypedArray()
+private fun List<String>.toMatrix(): Matrix<Char> = this.map { it.toCharArray().toTypedArray() }.toTypedArray()
 
-private operator fun <T> Grid<T>.get(point: Point) = this[point.x][point.y]
+private operator fun <T> Matrix<T>.get(point: Point) = this[point.x][point.y]
 
-private operator fun <T> Grid<T>.set(point: Point, value: T) {
+private operator fun <T> Matrix<T>.set(point: Point, value: T) {
     this[point.x][point.y] = value
 }
 
-private fun <T> Grid<T>.getOrNull(point: Point): T? =
+private fun <T> Matrix<T>.getOrNull(point: Point): T? =
     this.getOrNull(point.x)?.getOrNull(point.y)
 
-private fun <T> Grid<T>.indexesOf(value: T): List<Point> =
+private fun <T> Matrix<T>.indexesOf(value: T): List<Point> =
     this
         .mapIndexed { index, line -> Point(index, line.indexOf(value)) }
         .filter { point -> point.y > -1 }

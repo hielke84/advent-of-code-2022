@@ -32,7 +32,7 @@ private fun part2(input: List<String>): String {
     return topCrates(stacks)
 }
 
-private fun move1(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): List<List<Char>> {
+private fun move1(stacks: Matrix<Char>, moves: Int, from: Int, to: Int): Matrix<Char> {
     val result = stacks.toMutableList()
     repeat(moves) {
         val fromStack = result[from - 1]
@@ -43,7 +43,7 @@ private fun move1(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): Lis
     return result
 }
 
-private fun move2(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): List<List<Char>> {
+private fun move2(stacks: Matrix<Char>, moves: Int, from: Int, to: Int): Matrix<Char> {
     val result = stacks.toMutableList()
     val fromStack = result[from - 1]
     val toStack = result[to - 1]
@@ -52,12 +52,12 @@ private fun move2(stacks: List<List<Char>>, moves: Int, from: Int, to: Int): Lis
     return result
 }
 
-private fun topCrates(stacks: List<List<Char>>) =
+private fun topCrates(stacks: Matrix<Char>) =
     stacks
-        .map { if(it.isNotEmpty()) it.last() else " " }
+        .map { it.lastOrNull() ?: " " }
         .joinToString(separator = "")
 
-private fun parseStacks(input: List<String>, separator: Int): List<List<Char>> {
+private fun parseStacks(input: List<String>, separator: Int): Matrix<Char> {
     val crateLines = input.subList(0, separator - 1)
     val maxLength = crateLines.maxOf { it.length }
     val crates = crateLines
@@ -65,7 +65,7 @@ private fun parseStacks(input: List<String>, separator: Int): List<List<Char>> {
         .map(::sanitize)
         .reversed()
         .map { it.toCharArray().toList() }
-    return transpose(crates)
+    return crates.transpose()
 }
 
 private fun sanitize(input: String) =
@@ -75,16 +75,6 @@ private fun sanitize(input: String) =
         .replace(".", " ")
         .replace("[", "")
         .replace("]", "")
-
-private fun transpose(matrix: List<List<Char>>): List<List<Char>> {
-    val maxSize = matrix.maxOf { it.size }
-    return List(maxSize) { i ->
-        matrix
-            .map { it[i] }
-            .filter { it != ' ' }
-            .toMutableList()
-    }
-}
 
 private fun parseInstructions(input: List<String>, separator: Int) =
     input.subList(separator + 1, input.lastIndex + 1)
@@ -97,3 +87,15 @@ private fun codify(it: String): List<Int> =
         ?.drop(1)
         ?.map(String::toInt)
         ?: emptyList()
+
+private typealias Matrix<T> = List<List<T>>
+
+private fun <T> Matrix<T>.transpose(): Matrix<T> {
+    val maxSize = this.maxOf { it.size }
+    return List(maxSize) { i ->
+        this
+            .map { it[i] }
+            .filter { it != ' ' }
+            .toMutableList()
+    }
+}
