@@ -1,4 +1,5 @@
 import java.io.File
+import kotlin.time.measureTimedValue
 
 fun main() {
     val bar = "-".repeat(54)
@@ -20,33 +21,26 @@ fun main() {
         { day12.solve() },
         { day13.solve() },
         { day14.solve() },
-    ).forEachIndexed { index, solution ->
-        val t0 = System.currentTimeMillis()
-        val v = try {
-            solution.invoke()
-        } catch (e: Exception) {
-            e.printStackTrace()
+    ).forEachIndexed { index, solutions ->
+        val timedValue = measureTimedValue {
+            solutions()
         }
-        val t = System.currentTimeMillis() - t0
         println(
-            "Day " + (index + 1).toString().padStart(2, '0')
-                    + ": " + v
-                    + t.toString().padStart(10, ' ') + " ms"
+            "Day " + (index + 1).toString().padStart(2, '0') + ": "
+                    + timedValue.value.toString()
+                    + timedValue.duration.inWholeMilliseconds.toString().padStart(10, ' ') + " ms"
         )
     }
     println(bar)
 }
 
-data class Solution<T>(val actual: T, val expected: T) {
-    override fun toString(): String = actual.toString() + " " + icon()
-    private fun icon(): String = if (actual == expected) "⭐" else "❌"
+data class Solutions<T>(val part1: Solution<T>, val part2: Solution<T>) {
+    override fun toString(): String = part1.toString().padStart(15, ' ') + part2.toString().padStart(15, ' ')
 }
 
-data class Solutions<T>(val part1: Solution<T>, val part2: Solution<T>) {
-    override fun toString(): String = buildString {
-        append(part1.toString().padStart(15, ' '))
-        append(part2.toString().padStart(15, ' '))
-    }
+data class Solution<T>(val actual: T, val expected: T) {
+    override fun toString(): String = actual.toString() + ' ' + icon()
+    private fun icon(): String = if (actual == expected) "⭐" else "❌"
 }
 
 fun input(day: Int) =
