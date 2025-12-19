@@ -50,5 +50,5 @@ data class Solutions<T>(val part1: Solution<T>, val part2: Solution<T>) {
 }
 
 fun input(day: Int) =
-    File("src/Day${day.toString().padStart(2, '0')}", "input.txt")
+    File("src/day${day.toString().padStart(2, '0')}", "input.txt")
         .readLines()

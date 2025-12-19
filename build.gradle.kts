@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "2.2.20"
     id("application")
 }
 
@@ -7,15 +7,15 @@ repositories {
     mavenCentral()
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 tasks {
     sourceSets {
         main {
             java.srcDirs("src")
         }
-    }
-
-    wrapper {
-        gradleVersion = "7.3"
     }
 }
 
