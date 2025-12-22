@@ -14,22 +14,20 @@ fun solve(): Solutions<String> {
 
 private fun part1(input: List<String>): String {
     val separator = input.indexOf("")
-    var stacks = parseStacks(input, separator)
-    val instructions = parseInstructions(input, separator)
-    instructions.forEach {
-            stacks = move1(stacks, it[0], it[1], it[2])
-    }
-    return topCrates(stacks)
+    return parseInstructions(input, separator)
+        .fold(parseStacks(input, separator)) { currentStacks, instruction ->
+            move1(currentStacks, instruction[0], instruction[1], instruction[2])
+        }
+        .let(::topCrates)
 }
 
 private fun part2(input: List<String>): String {
     val separator = input.indexOf("")
-    var stacks = parseStacks(input, separator)
-    val instructions = parseInstructions(input, separator)
-    instructions.forEach {
-        stacks = move2(stacks, it[0], it[1], it[2])
-    }
-    return topCrates(stacks)
+    return parseInstructions(input, separator)
+        .fold(parseStacks(input, separator)) { currentStacks, instruction ->
+            move2(currentStacks, instruction[0], instruction[1], instruction[2])
+        }
+        .let(::topCrates)
 }
 
 private fun move1(stacks: Matrix<Char>, moves: Int, from: Int, to: Int): Matrix<Char> {
@@ -52,10 +50,9 @@ private fun move2(stacks: Matrix<Char>, moves: Int, from: Int, to: Int): Matrix<
     return result
 }
 
-private fun topCrates(stacks: Matrix<Char>) =
-    stacks
-        .map { it.lastOrNull() ?: " " }
-        .joinToString(separator = "")
+private fun parseInstructions(input: List<String>, separator: Int) =
+    input.subList(separator + 1, input.size)
+        .map { Instruction.fromString(it) }
 
 private fun parseStacks(input: List<String>, separator: Int): Matrix<Char> {
     val crateLines = input.subList(0, separator - 1)
@@ -76,26 +73,32 @@ private fun sanitize(input: String) =
         .replace("[", "")
         .replace("]", "")
 
-private fun parseInstructions(input: List<String>, separator: Int) =
-    input.subList(separator + 1, input.lastIndex + 1)
-        .map(::codify)
-
-private fun codify(it: String): List<Int> =
-    """move (\d+) from (\d+) to (\d+)""".toRegex()
-        .find(it)
-        ?.groupValues
-        ?.drop(1)
-        ?.map(String::toInt)
-        ?: emptyList()
+private fun topCrates(stacks: Matrix<Char>) =
+    stacks
+        .map { it.lastOrNull() ?: " " }
+        .joinToString(separator = "")
 
 private typealias Matrix<T> = List<List<T>>
 
 private fun <T> Matrix<T>.transpose(): Matrix<T> {
-    val maxSize = this.maxOf { it.size }
-    return List(maxSize) { i ->
+    return List(maxOf { it.size }) { i ->
         this
             .map { it[i] }
             .filter { it != ' ' }
             .toMutableList()
+    }
+}
+
+private data class Instruction(val amount: Int, val from: Int, val to: Int) {
+    companion object {
+        private val regex = """move (\d+) from (\d+) to (\d+)""".toRegex()
+
+        fun fromString(line: String): List<Int> =
+            regex
+                .find(line)
+                ?.groupValues
+                ?.drop(1)
+                ?.map(String::toInt)
+                ?: emptyList()
     }
 }
