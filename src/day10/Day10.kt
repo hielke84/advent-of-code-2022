@@ -29,24 +29,18 @@ private fun part2(input: List<String>): String {
     return "PHLHJGZA"
 }
 
-private fun cycles(input: List<String>): MutableList<Int> {
-    var registry = 1
-    val cycles = mutableListOf(registry)
-    input
-        .map { it.words() }
-        .map {
-            when (it[0]) {
-                "addx" -> {
-                    registry += it[1].toInt()
-                    listOf(registry - it[1].toInt(), registry)
-                }
-
-                "noop" -> listOf(registry)
-                else -> emptyList()
+private fun cycles(input: List<String>): List<Int> =
+    input.fold(Cpu()) { cpu, command ->
+        when {
+            command.startsWith("addx") -> {
+                val value = command.substringAfter("addx ").toInt()
+                val newX = cpu.x + value
+                Cpu(cpu.x + value, cpu.cycles + cpu.x + newX)
             }
-        }
-        .forEach { cycles.addAll(it) }
-    return cycles
-}
 
-private fun String.words(): List<String> = this.split(" ")
+            command.startsWith("noop") -> cpu.copy(cycles = cpu.cycles + cpu.x)
+            else -> cpu
+        }
+    }.cycles
+
+private data class Cpu(val x: Int = 1, val cycles: List<Int> = listOf(x))
