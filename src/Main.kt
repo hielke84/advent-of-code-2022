@@ -21,9 +21,14 @@ fun main() {
         { day12.solve() },
         { day13.solve() },
         { day14.solve() },
+        { day15.solve() },
     ).forEachIndexed { index, solutions ->
         val timedValue = measureTimedValue {
-            solutions()
+            try {
+                solutions()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         println(
             "Day " + (index + 1).toString().padStart(2, '0') + ": "
@@ -35,7 +40,7 @@ fun main() {
 }
 
 data class Solutions<T>(val part1: Solution<T>, val part2: Solution<T>) {
-    override fun toString(): String = part1.toString().padStart(15, ' ') + part2.toString().padStart(15, ' ')
+    override fun toString(): String = part1.toString().padStart(13, ' ') + part2.toString().padStart(18, ' ')
 }
 
 data class Solution<T>(val actual: T, val expected: T) {
