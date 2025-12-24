@@ -82,10 +82,7 @@ private typealias Matrix<T> = List<List<T>>
 
 private fun <T> Matrix<T>.transpose(): Matrix<T> {
     return List(maxOf { it.size }) { i ->
-        this
-            .map { it[i] }
-            .filter { it != ' ' }
-            .toMutableList()
+        this.map { it[i] }.filter { it != ' ' }
     }
 }
 

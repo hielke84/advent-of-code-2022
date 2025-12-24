@@ -27,8 +27,7 @@ private fun part1(input: List<String>): Int {
 
 private fun part2(input: List<String>): Int {
     val newStartChar = 'a'
-    val newInput = input.map { it.replace(START_CHAR, newStartChar) }
-    val heightMap = newInput.toMatrix()
+    val heightMap = input.map { it.replace(START_CHAR, newStartChar) }.toMatrix()
     val starts = heightMap.indexesOf(newStartChar)
     return starts.minOfOrNull { minDist(heightMap, it) } ?: -1
 }

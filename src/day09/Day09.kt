@@ -15,10 +15,10 @@ fun solve(): Solutions<Int> {
 }
 
 private fun part1(input: List<String>): Int {
-    var head = Point(0, 0)
-    var tail = Point(0, 0)
+    var head = Point()
+    var tail = Point()
     val visits = mutableSetOf(tail)
-    input.map { Instruction(Direction.valueOf(it.words()[0]), it.words()[1].toInt()) }
+    input.map { Instruction.fromString(it) }
         .forEach { instruction ->
             repeat(instruction.distance) {
                 head = moveHead(head, instruction.direction)
@@ -30,9 +30,9 @@ private fun part1(input: List<String>): Int {
 }
 
 private fun part2(input: List<String>): Int {
-    val knots = MutableList(10) { Point(0, 0) }
+    val knots = MutableList(10) { Point() }
     val visits = mutableSetOf(knots.last())
-    input.map { Instruction(Direction.valueOf(it.words()[0]), it.words()[1].toInt()) }
+    input.map { Instruction.fromString(it) }
         .forEach { instruction ->
             repeat(instruction.distance) {
                 knots[0] = moveHead(knots[0], instruction.direction)
@@ -53,12 +53,13 @@ private fun moveHead(head: Point, direction: Direction): Point =
         Direction.L -> head.left()
     }
 
-private fun moveTail(tail: Point, head: Point): Point =
-    if (abs(head.y - tail.y) == 2 || abs(head.x - tail.x) == 2)
-        Point(tail.x + (head.x - tail.x).sign, tail.y + (head.y - tail.y).sign)
-    else tail
+private fun moveTail(tail: Point, head: Point): Point {
+    val dx = head.x - tail.x
+    val dy = head.y - tail.y
+    return if (abs(dx) == 2 || abs(dy) == 2) Point(tail.x + dx.sign, tail.y + dy.sign) else tail
+}
 
-private data class Point(val x: Int, val y: Int) {
+private data class Point(val x: Int = 0, val y: Int = 0) {
     fun up() = copy(y = y - 1)
     fun down() = copy(y = y + 1)
     fun left() = copy(x = x - 1)
@@ -67,6 +68,11 @@ private data class Point(val x: Int, val y: Int) {
 
 private enum class Direction { U, R, D, L }
 
-private data class Instruction(val direction: Direction, val distance: Int)
-
-private fun String.words(): List<String> = this.split(" ")
+private data class Instruction(val direction: Direction, val distance: Int) {
+    companion object {
+        fun fromString(line: String): Instruction {
+            val (direction, distance) = line.split(" ")
+            return Instruction(Direction.valueOf(direction), distance.toInt())
+        }
+    }
+}

@@ -15,7 +15,9 @@ fun solve(): Solutions<Int> {
                     Point(x.toInt(), y.toInt())
                 }
                 .zipWithNext()
+                .map { Vertex.fromPair(it) }
         }.toSet()
+
     return Solutions(
         Solution(part1(input), 625),
         Solution(part2(input), 25193)
@@ -23,47 +25,22 @@ fun solve(): Solutions<Int> {
 }
 
 private fun part1(vertices: Set<Vertex>): Int {
-    val rocks = placeRocks(vertices)
+    val rocks = vertices.flatMap(Vertex::toPoints).toSet()
     val yMax = rocks.maxBy { it.y }.y
     return placeSand(rocks, yMax, yMax + 99)
 }
 
 private fun part2(vertices: Set<Vertex>): Int {
-    val rocks = placeRocks(vertices)
+    val rocks = vertices.flatMap(Vertex::toPoints).toSet()
     val yMax = rocks.maxBy { it.y }.y
     return placeSand(rocks, yMax + 99, yMax + 2)
 }
-
-private fun placeRocks(vertices: Set<Vertex>): Set<Point> =
-    vertices.flatMap { vertex ->
-        when {
-            vertex.first.x == vertex.second.x -> {
-                // vertical
-                val yMin = min(vertex.first.y, vertex.second.y)
-                val yMax = max(vertex.first.y, vertex.second.y)
-                (yMin..yMax)
-                    .map { y -> Point(vertex.first.x, y) }
-                    .toSet()
-            }
-
-            vertex.first.y == vertex.second.y -> {
-                // horizontal
-                val xMin = min(vertex.first.x, vertex.second.x)
-                val xMax = max(vertex.first.x, vertex.second.x)
-                (xMin..xMax)
-                    .map { x -> Point(x, vertex.first.y) }
-                    .toSet()
-            }
-
-            else -> emptySet()
-        }
-    }.toSet()
 
 private fun placeSand(rocks: Set<Point>, yCutoff: Int, yFloor: Int): Int {
     val sand = hashSetOf<Point>()
 
     do {
-        val grain = placeGrain(Point(500, 0), rocks, sand, yCutoff, yFloor)
+        val grain = placeGrain(Point(), rocks, sand, yCutoff, yFloor)
         grain?.let { sand.add(it) }
     } while (grain != null)
 
@@ -71,7 +48,7 @@ private fun placeSand(rocks: Set<Point>, yCutoff: Int, yFloor: Int): Int {
 }
 
 private fun placeGrain(grain: Point, rocks: Set<Point>, sand: Set<Point>, yCutoff: Int, yFloor: Int): Point? {
-    if (grain.y > yCutoff || sand.contains(Point(500, 0)))
+    if (grain.y > yCutoff || sand.contains(Point()))
         return null
 
     val down = grain.down()
@@ -92,10 +69,34 @@ private fun placeGrain(grain: Point, rocks: Set<Point>, sand: Set<Point>, yCutof
     }
 }
 
-private data class Point(val x: Int, val y: Int) {
+private data class Point(val x: Int = 500, val y: Int = 0) {
     fun down() = copy(y = y + 1)
     fun left() = copy(x = x - 1)
     fun right() = copy(x = x + 1)
 }
 
-private typealias Vertex = Pair<Point, Point>
+private data class Vertex(val first: Point, val second: Point) {
+    fun toPoints(): Set<Point> = when {
+        first.x == second.x -> {
+            toVerticalPoints()
+        }
+        first.y == second.y -> {
+            toHorizontalPoints()
+        }
+        else -> emptySet()
+    }
+
+    private fun toVerticalPoints() =
+        (min(first.y, second.y)..max(first.y, second.y))
+            .map { y -> Point(first.x, y) }
+            .toSet()
+
+    private fun toHorizontalPoints() =
+        (min(first.x, second.x)..max(first.x, second.x))
+            .map { x -> Point(x, first.y) }
+            .toSet()
+
+    companion object {
+        fun fromPair(pair: Pair<Point, Point>): Vertex = Vertex(pair.first, pair.second)
+    }
+}
