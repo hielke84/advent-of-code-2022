@@ -30,27 +30,26 @@ private fun part2(input: List<String>): Int {
 }
 
 private fun dirSizes(input: List<String>): Map<String, Int> {
-    val dirStack = mutableListOf<String>()
-    val dirSizes = mutableMapOf<String, Int>()
-
-    input.forEach { command ->
+    val result = input.fold(FileState()) { state, command ->
         when {
-            command.startsWith("$ cd ..") -> dirStack.removeLast()
-            command.startsWith("$ cd") -> dirStack.add(command.words()[2])
-            command.startsWith("$ ls") -> Unit
-            command.startsWith("dir") -> Unit
-            else -> {
-                dirStack.indices
-                    .map { path(dirStack, it) }
-                    .forEach { dirSizes[it] = (dirSizes[it] ?: 0) + command.words()[0].toInt() }
+            command.startsWith("$ cd ..") -> state.copy(path = state.path.dropLast(1))
+            command.startsWith("$ cd") -> state.copy(path = state.path + command.substringAfter("$ cd "))
+            command[0].isDigit() -> {
+                val size = command.substringBefore(" ").toInt()
+                val newSizes = state.sizes.toMutableMap()
+                state.path.indices.forEach { index ->
+                    val currentPath = state.subPath(index)
+                    newSizes[currentPath] = (newSizes[currentPath] ?: 0) + size
+                }
+                state.copy(sizes = newSizes)
             }
+
+            else -> state
         }
     }
-
-    return dirSizes.toMap()
+    return result.sizes.toMap()
 }
 
-private fun path(dirStack: List<String>, index: Int) =
-    dirStack.first() + dirStack.subList(1, index + 1).joinToString("/")
-
-private fun String.words(): List<String> = this.split(" ")
+private data class FileState(val path: List<String> = emptyList(), val sizes: Map<String, Int> = emptyMap()) {
+    fun subPath(index: Int): String = path.subList(0, index + 1).joinToString("/")
+}
